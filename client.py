@@ -41,13 +41,13 @@ def main():
         # receive resposne from server
         try:
             response = client.receive()
-            print(response)
         except struct.error:
             response = ''
         # close client on quit message
         if not response or response == '/q':
             client.close()
             break
+        print(response)
 
 
 if __name__ == '__main__':

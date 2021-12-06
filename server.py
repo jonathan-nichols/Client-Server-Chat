@@ -47,7 +47,6 @@ def main():
         # receive messages from client
         try:
             message = server.receive(client)
-            print(message)
         except struct.error:
             message = ''
         # close the server on quit message
@@ -55,6 +54,7 @@ def main():
             client.close()
             server.close()
             break
+        print(message)
         # get response
         response = ''
         while not response:
