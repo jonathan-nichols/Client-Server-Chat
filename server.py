@@ -43,9 +43,12 @@ def main():
     print('Waiting for message...')
     while True:
         # receive messages from client
-        message = server.receive(client)
-        print(message)
-        # close the socket on empty message
+        try:
+            message = server.receive(client)
+            print(message)
+        except struct.error:
+            message = ''
+        # close the server on quit message
         if not message or message == '/q':
             client.close()
             server.close()
