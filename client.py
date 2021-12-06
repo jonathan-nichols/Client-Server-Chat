@@ -9,14 +9,16 @@ class Client:
         self.socket.connect((host, port))
 
     def receive(self):
+        # retrieve the message size from first 4 bytes
         recv_size = struct.unpack('i', self.socket.recv(4))[0]
-        response = ''
+        response = []
         while recv_size > 0:
-            response += self.socket.recv(4096).decode()
+            response.append(self.socket.recv(4096).decode())
             recv_size -= 4096
-        return response
+        return ''.join(response)
 
     def send(self, message):
+        # send the message size as first 4 bytes
         data = message.encode()
         self.socket.sendall(struct.pack('i', len(data)))
         self.socket.sendall(data)

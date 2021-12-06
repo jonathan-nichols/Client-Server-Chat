@@ -18,14 +18,16 @@ class Server:
         return client, address
 
     def receive(self, client):
+        # retrieve the message size from first 4 bytes
         recv_size = struct.unpack('i', client.recv(4))[0]
-        response = ''
+        response = []
         while recv_size > 0:
-            response += client.recv(4096).decode()
+            response.append(client.recv(4096).decode()) 
             recv_size -= 4096
-        return response
+        return ''.join(response)
 
     def send(self, client, message):
+        # send the message size as first 4 bytes
         data = message.encode()
         client.sendall(struct.pack('i', len(data)))
         client.sendall(data)
